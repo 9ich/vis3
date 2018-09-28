@@ -37,6 +37,9 @@ func main() {
 	log.SetFlags(0)
 	flag.Parse()
 
+	clearScene()
+	needRefresh()
+
 	yyErrorVerbose = true
 	if flag.NArg() > 0 {
 		f, err := os.Open(flag.Arg(0))
@@ -72,8 +75,6 @@ func main() {
 	}
 
 	setupGL()
-	clearScene()
-	needRefresh()
 
 	t := time.Now()
 	now, then := t, t
