@@ -62,11 +62,11 @@ func main() {
 	}
 	defer win.Destroy()
 
-	ctx, err := sdl.GL_CreateContext(win)
+	ctx, err := sdl.GLCreateContext(win)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer sdl.GL_DeleteContext(ctx)
+	defer sdl.GLDeleteContext(ctx)
 	if err := gl.Init(); err != nil {
 		log.Fatal(err)
 	}
@@ -106,14 +106,16 @@ func main() {
 				viewAngles[1] = float32(math.Min(float64(viewAngles[1]), 89.9999))
 				viewAngles[1] = float32(math.Max(float64(viewAngles[1]), -89.9999))
 				needRefresh()
-			case *sdl.KeyDownEvent:
-				switch {
-				case t.Keysym.Sym == sdl.K_F4 && t.Keysym.Mod&sdl.KMOD_ALT != 0:
-					fallthrough
-				case t.Keysym.Sym == sdl.K_ESCAPE:
-					running = false
-				default:
-					needRefresh()
+			case *sdl.KeyboardEvent:
+				if t.Type == sdl.KEYDOWN {
+					switch {
+					case t.Keysym.Sym == sdl.K_F4 && t.Keysym.Mod&sdl.KMOD_ALT != 0:
+						fallthrough
+					case t.Keysym.Sym == sdl.K_ESCAPE:
+						running = false
+					default:
+						needRefresh()
+					}
 				}
 			}
 		}
@@ -192,7 +194,7 @@ func refresh(win *sdl.Window) {
 	}
 	lock.Unlock()
 
-	sdl.GL_SwapWindow(win)
+	sdl.GLSwapWindow(win)
 }
 
 func validArgs(name string, args []float32, expect int) bool {
