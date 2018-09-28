@@ -48,7 +48,7 @@ func main() {
 		go yyParse(newLexer(os.Stdin))
 	}
 
-	if err := sdl.Init(sdl.INIT_EVERYTHING); err != nil {
+	if err := sdl.Init(sdl.INIT_VIDEO); err != nil {
 		log.Fatal(err)
 	}
 	defer sdl.Quit()
